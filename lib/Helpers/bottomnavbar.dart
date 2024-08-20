@@ -88,7 +88,7 @@ class _BottomNavBarState extends State<BottomNavBar>
         Row(
           children: [
             Container(
-              height: 55,
+              height: 85,
               width: MediaQuery.of(context).size.width,
               decoration:
                   BoxDecoration(color: AppColor.TextFieldColor, boxShadow: [
@@ -144,6 +144,9 @@ class _BottomNavBarState extends State<BottomNavBar>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            SizedBox(
+              height: 10,
+            ),
             Image.asset(
               AppImage.appIcon + iconImg,
               color: currentIndex == currentInd
@@ -161,6 +164,9 @@ class _BottomNavBarState extends State<BottomNavBar>
                     : AppColor.DarkGrey,
               ),
             ),
+            SizedBox(
+              height: 15,
+            )
           ],
         ),
       ),

@@ -155,7 +155,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   children: [
                     SizedBox(height: Get.height * 0.08),
                     profilepart(),
-                    SizedBox(height: Get.height * 0.03),
+                    SizedBox(height: Get.height * 0.02),
                     accountPart(),
                     SizedBox(height: 60),
                   ],
@@ -560,6 +560,7 @@ class _SettingScreenState extends State<SettingScreen> {
         ),
         ListTile(
           contentPadding: EdgeInsets.zero,
+          visualDensity: VisualDensity(vertical: -2),
           leading: CommonWidget().interText(
               text: "About us",
               weight: FontWeight.w400,
@@ -568,6 +569,7 @@ class _SettingScreenState extends State<SettingScreen> {
           trailing: Icon(Icons.arrow_forward_ios, size: 20),
         ),
         ListTile(
+          visualDensity: VisualDensity(vertical: -4),
           onTap: () {
             deleteaccountPopup();
           },
@@ -580,6 +582,7 @@ class _SettingScreenState extends State<SettingScreen> {
           trailing: Icon(Icons.arrow_forward_ios, size: 20),
         ),
         ListTile(
+          visualDensity: VisualDensity(vertical: -2),
           onTap: () async {
             showExitPopup();
           },
@@ -590,6 +593,9 @@ class _SettingScreenState extends State<SettingScreen> {
               size: 14.0,
               color: AppColor.DarkGrey),
           trailing: Icon(Icons.arrow_forward_ios, size: 20),
+        ),
+        SizedBox(
+          height: 30,
         ),
       ],
     );

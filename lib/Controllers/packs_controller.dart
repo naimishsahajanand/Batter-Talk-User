@@ -11,6 +11,7 @@ import 'package:batter_talk_user/Models/notification_model.dart';
 import 'package:batter_talk_user/Models/response_model.dart';
 import 'package:batter_talk_user/Models/session_plan_list_model.dart';
 import 'package:batter_talk_user/Models/solo_chat_model.dart';
+import 'package:batter_talk_user/Screens/advance_success_page.dart';
 import 'package:batter_talk_user/Screens/session_timer_page.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -168,6 +169,7 @@ class PacksController extends GetxController {
       if (success.res == true) {
         print(response.body);
         CommonWidget().ToastCall(context, success.msg.toString());
+        Get.to(AdvanceSuccessPage());
       } else {
         print(response.body);
         CommonWidget().ToastCall(context, success.msg.toString());
@@ -210,7 +212,7 @@ class PacksController extends GetxController {
     if (response.statusCode == 200) {
       List<AllSoloChatModel>? allmessagedata =
           SoloChatModel.fromJson(jsonDecode(response.body)).allSoloChatModel;
-      print("AllChat${response.body}");
+      // print("AllChat${response.body}");
       return allmessagedata;
     } else {
       print(response.statusCode);
@@ -234,7 +236,9 @@ class PacksController extends GetxController {
           JoinCommunityResponse.fromJson(jsonDecode(response.body)).msg;
 
       CommonWidget().ToastCall(context, dataresponse.toString());
-      Get.offAll(BottomNavBar());
+
+      print("INNNNN :: ");
+      // Get.offAll(BottomNavBar());
 
       print(response.body);
       return dataresponse;

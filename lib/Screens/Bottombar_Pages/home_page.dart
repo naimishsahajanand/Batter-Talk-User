@@ -208,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             border: InputBorder.none,
                             contentPadding:
                                 EdgeInsets.symmetric(horizontal: 10),
-                            hintText: "Search a doctor",
+                            hintText: "Search a therapist",
                             suffixIcon: Icon(Icons.search, size: 30),
                             hintStyle: GoogleFonts.inter(
                                 fontWeight: FontWeight.w400, fontSize: 14)),
@@ -292,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         child: Container(
                                           width: loadappoinmentdata!.length == 1
                                               ? Get.width - 20
-                                              : Get.width * 0.8,
+                                              : Get.width * 0.9,
                                           margin: EdgeInsets.symmetric(
                                               horizontal: 10),
                                           padding: EdgeInsets.symmetric(
@@ -367,7 +367,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               Spacer(),
                                               Padding(
                                                 padding:
-                                                    EdgeInsets.only(right: 5),
+                                                    EdgeInsets.only(right: 2),
                                                 child: Image.asset(
                                                   AppImage.appIcon +
                                                       "right.png",
@@ -388,7 +388,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 15),
                       child: CommonWidget().interText(
-                        text: "Our Doctors",
+                        text: "Our Therapist",
                         size: 16.0,
                         weight: FontWeight.w500,
                       ),

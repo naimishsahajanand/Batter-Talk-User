@@ -170,7 +170,7 @@ class _InstantSessionTimerState extends State<InstantSessionTimer> {
                 strokeWidth: 15,
                 strokeCap: StrokeCap.round,
                 textStyle: TextStyle(
-                  fontSize: 32, 
+                  fontSize: 32,
                   color: Colors.black,
                   fontWeight: FontWeight.w500,
                 ),
@@ -195,7 +195,7 @@ class _InstantSessionTimerState extends State<InstantSessionTimer> {
               ),
             ),
             CommonWidget().interText(
-                text: "Is the waiting time for the doctor to join the chat",
+                text: "Is the waiting time for the therapist to join the chat",
                 color: AppColor.SoftTextColor,
                 size: 14.0,
                 weight: FontWeight.w500),
@@ -388,7 +388,7 @@ class _SessionTimerState extends State<SessionTimer> {
                   print("Changes");
                 },
                 timeFormatterFunction: (defaultFormatterFunction, duration) {
-                  print("Changes1");
+                  // print("Changes1");
                   if (duration.inSeconds == 0) {
                     return "05:00";
                   } else {
@@ -398,7 +398,7 @@ class _SessionTimerState extends State<SessionTimer> {
               ),
             ),
             CommonWidget().interText(
-                text: "Is the waiting time for the doctor to join the chat",
+                text: "Is the waiting time for the therapist to join the chat",
                 color: AppColor.SoftTextColor,
                 size: 14.0,
                 weight: FontWeight.w500),

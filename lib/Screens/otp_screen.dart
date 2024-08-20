@@ -74,6 +74,7 @@ class _OtpScreenState extends State<OtpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("number${final_number}");
     return Scaffold(
       body: CommonWidget().mainContainerwithimage(
           childwidget: Padding(

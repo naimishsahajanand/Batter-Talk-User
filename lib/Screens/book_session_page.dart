@@ -77,7 +77,7 @@ class _BookSessionPageState extends State<BookSessionPage> {
                     size: 16.0),
                 SizedBox(height: 10),
                 CommonWidget().interText(
-                    text: "Start up an instant session with the doctor ",
+                    text: "Start up an instant session with the therapist ",
                     color: AppColor.DarkGrey,
                     weight: FontWeight.w400,
                     size: 14.0),
@@ -130,7 +130,7 @@ class _BookSessionPageState extends State<BookSessionPage> {
                     size: 16.0),
                 SizedBox(height: 10),
                 CommonWidget().interText(
-                    text: "Book a session with the doctor in advance",
+                    text: "Book a session with the therapist in advance",
                     color: AppColor.DarkGrey,
                     weight: FontWeight.w400,
                     size: 14.0),

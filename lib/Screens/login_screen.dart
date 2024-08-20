@@ -98,10 +98,12 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: Get.height * 0.025),
             GestureDetector(
               onTap: () async {
+                print("hello");
                 setState(() {
                   isLoader = true;
                 });
                 if (_registerController.phonenumbercontroller.text.isEmpty) {
+                  print("aaaa");
                   CommonWidget()
                       .ToastCall(context, "Please Enter Phone Number");
                   setState(() {
@@ -116,6 +118,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     isLoader = false;
                   });
                 } else {
+                  print("bbbb");
                   _registerController.SendOTP(context, Final_number);
                   setState(() {
                     isLoader = false;

@@ -9,12 +9,14 @@ class SessionBookedModel {
   SessionBookedModel({this.res, this.msg, this.isBooked, this.data});
 
   SessionBookedModel.fromJson(Map<String, dynamic> json) {
+    print(" SP Json  : ${json['data']}");
     res = json['res'];
     msg = json['msg'];
     isBooked = json['isBooked'];
     data = json['data'] != null
-        ? new AllSessionBookedModel.fromJson(json['data'])
+        ? new AllSessionBookedModel.fromJson(json['data'] ?? "")
         : null;
+    // data = AllSessionBookedModel.fromJson(json['data'] ?? null);
   }
 
   Map<String, dynamic> toJson() {

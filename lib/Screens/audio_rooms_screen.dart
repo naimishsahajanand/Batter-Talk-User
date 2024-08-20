@@ -2,6 +2,7 @@
 
 import 'package:batter_talk_user/Helpers/common_widget.dart';
 import 'package:batter_talk_user/Helpers/utility.dart';
+import 'package:batter_talk_user/Screens/call_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -120,7 +121,7 @@ class AudioRoomsScreen extends StatelessWidget {
           SizedBox(height: 10),
           GestureDetector(
             onTap: () {
-              // Get.to(CallPage());
+              Get.to(CallPage());
             },
             child: Container(
               padding: EdgeInsets.all(8),

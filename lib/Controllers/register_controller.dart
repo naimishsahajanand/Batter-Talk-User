@@ -166,10 +166,11 @@ class RegisterController extends GetxController {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+    print("Status Code :- ${response.statusCode}");
     if (response.statusCode == 200) {
       var success = ResponseModel.fromJson(jsonDecode(response.body));
       if (success.res == true) {
-        print(response.body);
+        print("ress+${response.body}");
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) {
             return OtpScreen();
@@ -229,6 +230,7 @@ class RegisterController extends GetxController {
         'Content-Type': 'application/json; charset=UTF-8',
       },
     );
+    print("res+${response.body}");
     if (response.statusCode == 200) {
       var success = OtpVerificationModel.fromJson(jsonDecode(response.body));
       var savetoken =

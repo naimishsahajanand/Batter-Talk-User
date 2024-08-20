@@ -61,7 +61,7 @@ class _InstantChatPageState extends State<InstantChatPage> {
       data.value = Get.arguments;
       print("Check Elsess ${data.value.data!.id}");
     }
-
+    print("Datas = =  Enter");
     DataFetch();
     connectToServer();
   }
@@ -69,11 +69,13 @@ class _InstantChatPageState extends State<InstantChatPage> {
   DataFetch() async {
     loadusermessage = await _packsController.fetchUserSoloChatDataApi(
         usertoken, data.value.data!.id.toString(), "1");
+    print("Datas = =  fourth");
     loaddata = await _packsController.appoinmentdataApi(usertoken.toString());
-
+    print("Datas = =  five");
     setState(() {
       isLoader = false;
     });
+    print("Datas = =  six");
   }
 
   @override
@@ -101,10 +103,14 @@ class _InstantChatPageState extends State<InstantChatPage> {
                         color: AppColor.DarkGrey, fontWeight: FontWeight.w400)),
               ),
               TextButton(
-                onPressed: () {
+                onPressed: () async {
                   sessionleave();
-                  _packsController.cencelsessiontApi(usertoken.toString(),
-                      data.value.data!.id.toString(), context);
+                  // Navigator.of(context).pop(true);
+
+                  await _packsController
+                      .cencelsessiontApi(usertoken.toString(),
+                          data.value.data!.id.toString(), context)
+                      .then((e) => Get.offAll(BottomNavBar()));
                 },
                 child: Text('Yes',
                     style: GoogleFonts.inter(
@@ -118,8 +124,20 @@ class _InstantChatPageState extends State<InstantChatPage> {
 
   pageOff() {
     sessionleave();
+    sendMessage();
     Future.delayed(
       Duration(seconds: 2),
+      () {
+        Get.offAll(BottomNavBar());
+      },
+    );
+  }
+
+  pageof() {
+    sessionleave();
+    // sendMessage();
+    Future.delayed(
+      Duration(microseconds: 100),
       () {
         Get.offAll(BottomNavBar());
       },
@@ -201,324 +219,359 @@ class _InstantChatPageState extends State<InstantChatPage> {
   }
 
   @override
+  void dispose() {
+    // Disconnect the socket to avoid memory leaks
+    // socket.disconnect();
+    // socket.close();
+
+    // Dispose the message controller
+    // _messagecontroller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // print("Datas = =  Build");
     DataFetch();
-    return WillPopScope(
-      onWillPop: () {
-        if (data.value.data!.isAcceptDoctor == true &&
-            data.value.data!.isAcceptUser == false &&
-            data.value.data!.type == "Instant") {
-          Navigator.of(context).pop(false);
-        } else {
-          showExitPopup();
-        }
-        return Future.delayed(Duration(microseconds: 10));
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          systemOverlayStyle: SystemUiOverlayStyle(
-              statusBarColor: AppColor.BlackColor,
-              statusBarIconBrightness: Brightness.light),
-          centerTitle: false,
-          titleSpacing: 0,
-          iconTheme: IconThemeData(color: AppColor.SoftTextColor),
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-              onPressed: () {
-                data.value.data!.isAcceptDoctor == true &&
-                        data.value.data!.isAcceptUser == false &&
-                        data.value.data!.type == "Instant"
-                    ? Navigator.of(context).pop(false)
-                    : showExitPopup();
-              },
-              icon: Icon(
-                Icons.arrow_back,
-                color: AppColor.BlackColor,
-              )),
-          title: Row(
-            children: [
-              Container(
-                height: 40,
-                width: 40,
-                decoration: BoxDecoration(
-                    color: AppColor.BlackColor,
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: NetworkImage(data.value.data!.image == "" ||
-                                data.value.data!.image == null
-                            ? "https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg"
-                            : data.value.data!.image.toString()),
-                        fit: BoxFit.cover)),
+
+    return data.value.data == null
+        ? Scaffold(
+            body: Container(
+              height: Get.height,
+              width: Get.width,
+              child: Center(
+                child: CircularProgressIndicator(),
               ),
-              SizedBox(width: 15),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CommonWidget().interText(
-                      text: data.value.data!.introduction.toString(),
-                      color: AppColor.DarkGrey,
-                      weight: FontWeight.w700,
-                      size: 16.0),
-                  SizedBox(height: 2),
-                  CommonWidget().interText(
-                      text: data.value.data!.jobtitle.toString(),
-                      color: AppColor.DarkGrey,
-                      weight: FontWeight.w400,
-                      size: 12.0),
+            ),
+          )
+        : WillPopScope(
+            onWillPop: () {
+              if (data.value.data!.isAcceptDoctor == true &&
+                  data.value.data!.isAcceptUser == false &&
+                  data.value.data!.type == "Instant") {
+                Navigator.of(context).pop(false);
+              } else {
+                showExitPopup();
+              }
+              return Future.delayed(Duration(microseconds: 10));
+            },
+            child: Scaffold(
+              appBar: AppBar(
+                elevation: 0,
+                systemOverlayStyle: SystemUiOverlayStyle(
+                    statusBarColor: AppColor.BlackColor,
+                    statusBarIconBrightness: Brightness.light),
+                centerTitle: false,
+                titleSpacing: 0,
+                iconTheme: IconThemeData(color: AppColor.SoftTextColor),
+                backgroundColor: Colors.transparent,
+                leading: IconButton(
+                    onPressed: () {
+                      data.value.data!.isAcceptDoctor == true &&
+                              data.value.data!.isAcceptUser == false &&
+                              data.value.data!.type == "Instant"
+                          ? Navigator.of(context).pop(false)
+                          : showExitPopup();
+                    },
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: AppColor.BlackColor,
+                    )),
+                title: Row(
+                  children: [
+                    Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          color: AppColor.BlackColor,
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: NetworkImage(data == null
+                                  ? "https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg"
+                                  : data.value.data!.image == "" ||
+                                          data.value.data!.image == null
+                                      ? "https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg"
+                                      : data.value.data!.image.toString()),
+                              fit: BoxFit.cover)),
+                    ),
+                    SizedBox(width: 15),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CommonWidget().interText(
+                            text: data.value.data!.introduction.toString(),
+                            color: AppColor.DarkGrey,
+                            weight: FontWeight.w700,
+                            size: 16.0),
+                        SizedBox(height: 2),
+                        CommonWidget().interText(
+                            text: data.value.data!.jobtitle.toString(),
+                            color: AppColor.DarkGrey,
+                            weight: FontWeight.w400,
+                            size: 12.0),
+                      ],
+                    ),
+                  ],
+                ),
+                actions: [
+                  data.value.data!.isAcceptDoctor == true &&
+                          data.value.data!.isAcceptUser == false &&
+                          data.value.data!.type == "Instant"
+                      ? SizedBox()
+                      : GestureDetector(
+                          onTap: onetooneVideoCall,
+                          child: Image.asset(
+                            AppImage.appIcon + "video.png",
+                            width: 25,
+                          ),
+                        ),
+                  SizedBox(width: 10),
+                  data.value.data!.isAcceptDoctor == true &&
+                          data.value.data!.isAcceptUser == false &&
+                          data.value.data!.type == "Instant"
+                      ? SizedBox()
+                      : GestureDetector(
+                          onTap: onetooneAudioCall,
+                          child: Image.asset(
+                            AppImage.appIcon + "call.png",
+                            width: 25,
+                          ),
+                        ),
+                  SizedBox(width: 10),
+                  data.value.data!.isAcceptDoctor == true &&
+                          data.value.data!.isAcceptUser == false &&
+                          data.value.data!.type == "Instant"
+                      ? SizedBox()
+                      : GestureDetector(
+                          onTap: showExitPopup,
+                          child: Image.asset(
+                            AppImage.appIcon + "leave.png",
+                            width: 25,
+                          ),
+                        ),
+                  SizedBox(width: 10),
                 ],
               ),
-            ],
-          ),
-          actions: [
-            data.value.data!.isAcceptDoctor == true &&
-                    data.value.data!.isAcceptUser == false &&
-                    data.value.data!.type == "Instant"
-                ? SizedBox()
-                : GestureDetector(
-                    onTap: onetooneVideoCall,
-                    child: Image.asset(
-                      AppImage.appIcon + "video.png",
-                      width: 25,
-                    ),
+              body: CommonWidget().mainContainer(
+                  childwidget: Stack(
+                children: [
+                  Divider(
+                    color: Color(0xffF5F8FA),
+                    thickness: 4,
                   ),
-            SizedBox(width: 10),
-            data.value.data!.isAcceptDoctor == true &&
-                    data.value.data!.isAcceptUser == false &&
-                    data.value.data!.type == "Instant"
-                ? SizedBox()
-                : GestureDetector(
-                    onTap: onetooneAudioCall,
-                    child: Image.asset(
-                      AppImage.appIcon + "call.png",
-                      width: 25,
-                    ),
-                  ),
-            SizedBox(width: 10),
-            data.value.data!.isAcceptDoctor == true &&
-                    data.value.data!.isAcceptUser == false &&
-                    data.value.data!.type == "Instant"
-                ? SizedBox()
-                : GestureDetector(
-                    onTap: showExitPopup,
-                    child: Image.asset(
-                      AppImage.appIcon + "leave.png",
-                      width: 25,
-                    ),
-                  ),
-            SizedBox(width: 10),
-          ],
-        ),
-        body: CommonWidget().mainContainer(
-            childwidget: Stack(
-          children: [
-            Divider(
-              color: Color(0xffF5F8FA),
-              thickness: 4,
-            ),
-            Container(
-              height: Get.height,
-              child: isLoader
-                  ? Center(child: CircularProgressIndicator())
-                  : data.value.data!.isAcceptUser == false &&
-                          data.value.data!.type == "Instant"
-                      ? userAppoinmentWidget(context)
-                      : loadusermessage!.isEmpty
-                          ? waitingWidget()
-                          : ListView.builder(
-                              itemCount: loadusermessage!.length,
-                              shrinkWrap: true,
-                              reverse: true,
-                              padding: EdgeInsets.only(bottom: 70),
-                              physics: AlwaysScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                DateTime parseDate =
-                                    new DateFormat("yyyy-MM-dd HH:mm:ss").parse(
-                                        loadusermessage![index]
-                                            .createdAt
-                                            .toString());
-                                var inputDate =
-                                    DateTime.parse(parseDate.toString());
-                                var outputFormat = DateFormat('hh:mm a');
-                                formatdate = outputFormat.format(inputDate);
-                                return loadusermessage![index].message ==
-                                        "Doctor Leave From Chat"
-                                    ? pageOff()
-                                    // ? Center(
-                                    //     child: Text(
-                                    //     loadusermessage![index]
-                                    //         .message
-                                    //         .toString(),
-                                    //     style: TextStyle(
-                                    //         fontSize: 14, color: Colors.grey),
-                                    //   ))
-                                    : Align(
-                                        alignment:
-                                            loadusermessage![index].senderId ==
-                                                    data.value.data!.userid
-                                                ? Alignment.topRight
-                                                : Alignment.topLeft,
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 5),
-                                          margin: loadusermessage![index]
-                                                      .senderId ==
-                                                  data.value.data!.userid
-                                              ? EdgeInsets.only(
-                                                  right: 15, top: 5, bottom: 5)
-                                              : EdgeInsets.only(
-                                                  left: 15, top: 5, bottom: 5),
-                                          width: Get.width * 0.75,
-                                          decoration: BoxDecoration(
-                                              color: Color(0xffF3F3F3),
-                                              border: Border.all(
-                                                  color: loadusermessage![index]
-                                                              .senderId ==
-                                                          data.value.data!
-                                                              .userid
-                                                      ? Color(0xffA0CFFF)
-                                                      : AppColor.BorderColor,
-                                                  width: 1),
-                                              borderRadius: loadusermessage![index]
+                  Container(
+                    height: Get.height,
+                    child: isLoader
+                        ? Center(child: CircularProgressIndicator())
+                        : data.value.data!.isAcceptUser == false &&
+                                data.value.data!.type == "Instant"
+                            ? userAppoinmentWidget(context)
+                            : loadusermessage!.isEmpty
+                                ? waitingWidget()
+                                : ListView.builder(
+                                    itemCount: loadusermessage!.length,
+                                    shrinkWrap: true,
+                                    reverse: true,
+                                    padding: EdgeInsets.only(bottom: 70),
+                                    physics: AlwaysScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      DateTime parseDate =
+                                          new DateFormat("yyyy-MM-dd HH:mm:ss")
+                                              .parse(loadusermessage![index]
+                                                  .createdAt
+                                                  .toString());
+                                      var inputDate =
+                                          DateTime.parse(parseDate.toString());
+                                      var outputFormat = DateFormat('hh:mm a');
+                                      formatdate =
+                                          outputFormat.format(inputDate);
+                                      return loadusermessage![index].message ==
+                                              "Doctor Leave From Chat"
+                                          ? pageof()
+                                          // pageOff()
+                                          // ? Center(
+                                          //     child: Text(
+                                          //     loadusermessage![index]
+                                          //         .message
+                                          //         .toString(),
+                                          //     style: TextStyle(
+                                          //         fontSize: 14, color: Colors.grey),
+                                          //   ))
+                                          : Align(
+                                              alignment: loadusermessage![index]
                                                           .senderId ==
                                                       data.value.data!.userid
-                                                  ? BorderRadius.only(
-                                                      bottomLeft:
-                                                          Radius.circular(15),
-                                                      topLeft:
-                                                          Radius.circular(15),
-                                                      bottomRight:
-                                                          Radius.circular(15))
-                                                  : BorderRadius.only(
-                                                      bottomLeft: Radius.circular(15),
-                                                      topRight: Radius.circular(15),
-                                                      bottomRight: Radius.circular(15))),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  CommonWidget().interText(
-                                                      text: loadusermessage![
-                                                                          index]
-                                                                      .introduction ==
-                                                                  "" ||
-                                                              loadusermessage![
-                                                                          index]
-                                                                      .introduction ==
-                                                                  null
-                                                          ? "Unknown"
-                                                          : loadusermessage![
-                                                                  index]
-                                                              .introduction,
-                                                      color: Color(0xff056AD0),
-                                                      size: 13.0,
-                                                      weight: FontWeight.w500),
-                                                  SizedBox(width: 5),
-                                                  loadusermessage![index]
-                                                              .type ==
-                                                          "doctor"
-                                                      ? Image.asset(
-                                                          AppImage.appIcon +
-                                                              "verified.png",
-                                                          width: 15)
-                                                      : SizedBox()
-                                                ],
-                                              ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                children: [
-                                                  SizedBox(
-                                                    width: Get.width * 0.55,
-                                                    child: CommonWidget()
-                                                        .interText(
-                                                            text:
-                                                                loadusermessage![
+                                                  ? Alignment.topRight
+                                                  : Alignment.topLeft,
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 5),
+                                                margin: loadusermessage![index]
+                                                            .senderId ==
+                                                        data.value.data!.userid
+                                                    ? EdgeInsets.only(
+                                                        right: 15,
+                                                        top: 5,
+                                                        bottom: 5)
+                                                    : EdgeInsets.only(
+                                                        left: 15,
+                                                        top: 5,
+                                                        bottom: 5),
+                                                width: Get.width * 0.75,
+                                                decoration: BoxDecoration(
+                                                    color: Color(0xffF3F3F3),
+                                                    border: Border.all(
+                                                        color: loadusermessage![index]
+                                                                    .senderId ==
+                                                                data.value.data!
+                                                                    .userid
+                                                            ? Color(0xffA0CFFF)
+                                                            : AppColor
+                                                                .BorderColor,
+                                                        width: 1),
+                                                    borderRadius: loadusermessage![index]
+                                                                .senderId ==
+                                                            data.value.data!
+                                                                .userid
+                                                        ? BorderRadius.only(
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    15),
+                                                            topLeft:
+                                                                Radius.circular(15),
+                                                            bottomRight: Radius.circular(15))
+                                                        : BorderRadius.only(bottomLeft: Radius.circular(15), topRight: Radius.circular(15), bottomRight: Radius.circular(15))),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        CommonWidget().interText(
+                                                            text: loadusermessage![index]
+                                                                            .introduction ==
+                                                                        "" ||
+                                                                    loadusermessage![index]
+                                                                            .introduction ==
+                                                                        null
+                                                                ? "Unknown"
+                                                                : loadusermessage![
                                                                         index]
-                                                                    .message
-                                                                    .toString(),
-                                                            maxline: 5,
-                                                            color: AppColor
-                                                                .BlackColor,
-                                                            size: 15.0,
+                                                                    .introduction,
+                                                            color: Color(
+                                                                0xff056AD0),
+                                                            size: 13.0,
                                                             weight: FontWeight
                                                                 .w500),
-                                                  ),
-                                                  CommonWidget().interText(
-                                                      text: loadusermessage![
-                                                                          index]
-                                                                      .createdAt ==
-                                                                  "" ||
-                                                              loadusermessage![
-                                                                          index]
-                                                                      .createdAt ==
-                                                                  null
-                                                          ? ""
-                                                          : formatdate,
-                                                      color: Color(0xff7C7C7C),
-                                                      size: 10.0,
-                                                      align: TextAlign.end,
-                                                      weight: FontWeight.w400),
-                                                ],
+                                                        SizedBox(width: 5),
+                                                        loadusermessage![index]
+                                                                    .type ==
+                                                                "doctor"
+                                                            ? Image.asset(
+                                                                AppImage.appIcon +
+                                                                    "verified.png",
+                                                                width: 15)
+                                                            : SizedBox()
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .end,
+                                                      children: [
+                                                        SizedBox(
+                                                          width:
+                                                              Get.width * 0.55,
+                                                          child: CommonWidget().interText(
+                                                              text: loadusermessage![
+                                                                      index]
+                                                                  .message
+                                                                  .toString(),
+                                                              maxline: 5,
+                                                              color: AppColor
+                                                                  .BlackColor,
+                                                              size: 15.0,
+                                                              weight: FontWeight
+                                                                  .w500),
+                                                        ),
+                                                        CommonWidget().interText(
+                                                            text: loadusermessage![index]
+                                                                            .createdAt ==
+                                                                        "" ||
+                                                                    loadusermessage![index]
+                                                                            .createdAt ==
+                                                                        null
+                                                                ? ""
+                                                                : formatdate,
+                                                            color: Color(
+                                                                0xff7C7C7C),
+                                                            size: 10.0,
+                                                            align:
+                                                                TextAlign.end,
+                                                            weight: FontWeight
+                                                                .w400),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                              }),
-            ),
-            data.value.data!.isAcceptUser == false &&
-                    data.value.data!.type == "Instant"
-                ? SizedBox()
-                : Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      height: 50,
-                      width: Get.width,
-                      margin: EdgeInsets.only(
-                          left: 15, right: 15, top: 5, bottom: 10),
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [Color(0xffE5E9F0), Color(0xffF5F8FA)]),
-                          border:
-                              Border.all(color: Color(0xffE5E9F0), width: 1),
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              height: 50,
-                              width: Get.width * 0.7,
-                              child: TextFormField(
-                                controller: _messagecontroller,
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: "Write a message..."),
+                                            );
+                                    }),
+                  ),
+                  data.value.data!.isAcceptUser == false &&
+                          data.value.data!.type == "Instant"
+                      ? SizedBox()
+                      : Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            height: 50,
+                            width: Get.width,
+                            margin: EdgeInsets.only(
+                                left: 15, right: 15, top: 5, bottom: 10),
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(colors: [
+                                  Color(0xffE5E9F0),
+                                  Color(0xffF5F8FA)
+                                ]),
+                                border: Border.all(
+                                    color: Color(0xffE5E9F0), width: 1),
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Container(
+                                    height: 50,
+                                    width: Get.width * 0.7,
+                                    child: TextFormField(
+                                      controller: _messagecontroller,
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: "Write a message..."),
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: sendMessage,
+                                    child: Image.asset(
+                                      AppImage.appIcon + "send.png",
+                                      height: 22,
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
-                            GestureDetector(
-                              onTap: sendMessage,
-                              child: Image.asset(
-                                AppImage.appIcon + "send.png",
-                                height: 22,
-                              ),
-                            )
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-          ],
-        )),
-      ),
-    );
+                ],
+              )),
+            ),
+          );
   }
 
   Center doctorResponseWidget() {

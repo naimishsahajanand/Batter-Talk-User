@@ -112,7 +112,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    // Get.to(AudioRoomsScreen());
+                    // Get.to(() => AudioRoomsScreen());
                     CommonWidget().ToastCall(
                         context, "This Feature Currently Not Availeble");
                   },

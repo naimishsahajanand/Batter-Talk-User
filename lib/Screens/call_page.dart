@@ -29,6 +29,8 @@ class _CallPageState extends State<CallPage> {
     });
   }
 
+  // appId: "81c16bcc2d114903badaea8634aadf02",
+  // appId: "be34b8af1cc64071bc0e9bc9b9beef49",
   initAgora() async {
     requestPermission();
     _engine = createAgoraRtcEngine();
@@ -74,7 +76,8 @@ class _CallPageState extends State<CallPage> {
     await _engine.enableAudio();
     await _engine.startPreview();
     await _engine.joinChannel(
-      channelId: 'My New Project',
+      channelId: 'My New Project 3',
+      // channelId: 'My New Project',
       token: CallToken.calltoken,
       // token: agoraToken,
       uid: 0,
@@ -223,6 +226,7 @@ class _CallPageState extends State<CallPage> {
   }
 
   Widget _remoteAudio() {
+    print("remote${_remoteUid}");
     if (_remoteUid != null) {
       return Container(
         height: Get.height,

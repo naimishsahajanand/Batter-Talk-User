@@ -47,7 +47,7 @@ class _SplashViewState extends State<SplashView> {
             child: Image.asset(AppImage.appIcon + 'BTLogo.jpg'),
           ),
           CommonWidget().interText(
-              text: "Better Talk Patient", size: 18.0, weight: FontWeight.w700),
+              text: "Better Talk", size: 18.0, weight: FontWeight.w700),
         ]),
       ),
     );
